@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from './user.service';
 import { LoginService } from '../login/login.service';
 import { User } from '../model/user.model';
-import { Course } from '../model/course.model';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -40,8 +39,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.loginService.isLoggedFunc().subscribe(
-      res => { },
-      error => this.loginService.errorHandler(error),
+      res => { }
     );
 
     this.service.getUser(this.internalName).subscribe(user => {
@@ -53,7 +51,10 @@ export class UserComponent implements OnInit {
 
       console.log("Loaded user in profile: \n" + JSON.stringify(this.user));
     },
-      error => console.log(error));
+      error => {
+        console.log(error);
+        this.loginService.errorHandler(error);
+      });
 
   }
 
@@ -64,6 +65,23 @@ export class UserComponent implements OnInit {
       },
       error => console.log('Error when trying to log out: ' + error)
     );
+  }
+
+  private createURL(url: string[]): string{
+    let newUrl = "";
+    url.forEach(
+      section => {
+        newUrl += section + "/";
+      }
+    );
+
+    return newUrl;
+  }
+
+  dowloadPDF(nameCourse: string) {
+    let url = this.createURL([this.URL, 'profile', this.internalName, 'certificate', nameCourse + "-" + this.user.userID]);
+
+    window.open(url, "_self");
   }
 
 }
