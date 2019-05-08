@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
-import {User} from '../model/user.model';
+import { User } from '../model/user.model';
 import { LoginService } from '../login/login.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -44,9 +44,9 @@ export class UserService {
     });
     const options = new RequestOptions({ withCredentials: true, headers });
     const body = JSON.stringify(user);
-      return this.http.post(URL, body, options)
-        .map(response => response.json())
-        .catch(error => this.handleError(error));
+    return this.http.post(URL, body, options)
+      .map(response => response.json())
+      .catch(error => this.handleError(error));
   }
   uploadImage(internalName: string, file: File) {
     let reqUrl;
@@ -54,7 +54,7 @@ export class UserService {
     const formData = new FormData();
     formData.append('profileImage', file);
     reqUrl = URL + '/img/' + internal;
-      return this.newHttp.put<User>(reqUrl, formData, { withCredentials: true });
+    return this.newHttp.put<User>(reqUrl, formData, { withCredentials: true });
   }
   getImageProfile(internal: string) {
     const headers = new Headers({
@@ -96,8 +96,8 @@ export class UserService {
   }
 
   private handleError(error: any) {
-    console.error(error);
-    return Observable.throw('Server error (' + error.status + '): ' + error.text());
+      console.error(error);
+      return Observable.throw('Server error (' + error.status + '): ' + error.text());
   }
 
   checkUsernameAndMail(username: string, userMail: string) {
@@ -125,9 +125,9 @@ export class UserService {
     errors[2] = isValidEmailAddress();
 
     return errors;
-    }
+  }
 
-    deleteUser(internalName: string) {
-      return this.http.delete(URL + '/' + internalName, { withCredentials: true });
-    }
+  deleteUser(internalName: string) {
+    return this.http.delete(URL + '/' + internalName, { withCredentials: true });
+  }
 }
