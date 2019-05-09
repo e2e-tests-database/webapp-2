@@ -42,8 +42,8 @@
                     <span class="col-12">
                         <label class="col-md-1">New:</label>
                         <input class="col-md-2" type="text" #itemName placeholder="Name:">
-                        <input class="col-md-3" type="text" #itemType placeholder="Icon: (pdf, word, video...)">
-                        <input class="col-md-4" type="file" #itemFile>
+                        <input class="col-md-3" type="text" value="{{typeFile}}" #itemType placeholder="Icon: (pdf, word, video...)">
+                        <input class="col-md-4" type="file" (change)="addedFile(itemFile)" #itemFile>
                         <button class="col-md-1" (click)="createStudyItem(itemName.value, itemType.value, itemFile, i)">Create</button>
                     </span>
                 </li>

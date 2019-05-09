@@ -1,16 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Course } from '../model/course.model';
-import { CourseService } from '../course-information/course.service';
-import { environment } from '../../environments/environment';
-import { Subject } from '../model/subject.model';
 import { MoodleService } from './moodle.service';
 import { LoginService } from '../login/login.service';
 import { Studyitem } from '../model/studyitem.model';
-
-
-
-
 
 @Component({
   selector: 'moodle-contents-component',
@@ -18,11 +10,7 @@ import { Studyitem } from '../model/studyitem.model';
   styleUrls: ['../../assets/css/student-subject.css']
 })
 
-
-
 export class MoodleContentsComponent {
-
-
 
   @Input()
   private subjectName: string;
@@ -33,6 +21,7 @@ export class MoodleContentsComponent {
   private studyItems: Studyitem[][];
   private studyItemsPage: number[];
   private studyItemsisLast: boolean[];
+  private typeFile: string = "";
 
   @Output()
   refreshSubject = new EventEmitter<any>();
@@ -119,6 +108,26 @@ export class MoodleContentsComponent {
       alert("There are empty parameters");
     }
   }
+
+  public addedFile(inputFile){
+    let file = inputFile.files[0];
+    this.typeFile = this.typeOfFile(file.name, file.type);
+  }
+
+  private typeOfFile(name: string, type: string){
+    if(type.includes("text")){
+      return "text";
+    } else if(type.includes("image")){
+      return "image";
+    } else if(type.includes("openxmlformats")){
+      return "word";
+    } else if(type.includes("pdf")){
+      return "pdf";
+    } else if(type.includes("video")){
+      return "video";
+    }
+  }
+
 
   deleteModule(module: number) {
     this.moodleService.deleteModule(this.courseName, this.subjectName, module+1).subscribe(
